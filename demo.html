@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Demo — ChurnIntercept</title>
+  <meta name="description" content="Try ChurnIntercept's browser-based customer feedback prioritisation demo with sample data or your own text.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#17141f">
+  <link rel="canonical" href="https://churnintercept.co.uk/demo">
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/site.js" defer></script>
+  <script src="/assets/demo.js" defer></script>
+</head>
+<body class="demo-page">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="ChurnIntercept home"><img src="/assets/mark.svg" alt="" width="34" height="34"><span>ChurnIntercept</span></a>
+    <nav class="demo-nav" aria-label="Demo navigation"><a href="/">Back to overview</a><a class="button button-small" href="/#early-access">Join early access</a></nav>
+  </header>
+  <main id="main" class="demo-main">
+    <header class="demo-intro">
+      <div>
+        <p class="eyebrow">Interactive browser demo</p>
+        <h1>Turn raw feedback into a review queue.</h1>
+      </div>
+      <div class="demo-disclosure">
+        <strong>This is a transparent prototype.</strong>
+        <p>It uses explainable keyword rules, not production AI. Text stays in this browser tab and is never uploaded.</p>
+      </div>
+    </header>
+
+    <section class="demo-workspace" aria-labelledby="input-title">
+      <div class="demo-input-panel">
+        <div class="panel-heading"><div><p class="panel-index">01 / Input</p><h2 id="input-title">Customer messages</h2></div><button class="quiet-button" type="button" data-load-sample>Restore sample</button></div>
+        <label for="feedback-input">Enter one customer message per line</label>
+        <textarea id="feedback-input" rows="14" data-feedback-input>We could not finish setup because the onboarding checklist disappeared.
+The CSV export times out whenever we include more than six months of data.
+Our new team members do not understand what to do after connecting the workspace.
+Please add a HubSpot integration so our success team can see account context.
+Export failed again this morning and the report is due today.
+The dashboard is useful, but loading the account view has become very slow.
+I am considering cancelling because implementation has taken three weeks.
+Can you support Salesforce fields in the next release?
+The setup guide sends us in circles and nobody knows which step is complete.
+Support was helpful, but the app freezes when we open a large customer account.</textarea>
+        <div class="input-actions">
+          <button class="button" type="button" data-run-analysis>Analyse feedback</button>
+          <button class="quiet-button" type="button" data-clear-input>Clear</button>
+        </div>
+        <p class="demo-error" role="alert" data-demo-error></p>
+      </div>
+
+      <div class="demo-results-panel" aria-labelledby="results-title" aria-live="polite" aria-busy="false" data-results-panel>
+        <div class="panel-heading"><div><p class="panel-index">02 / Review</p><h2 id="results-title" tabindex="-1">Priority themes</h2></div><button class="quiet-button" type="button" data-export disabled>Export CSV</button></div>
+        <div class="result-summary" data-result-summary>
+          <div><span>Messages</span><strong data-message-count>0</strong></div>
+          <div><span>Themes</span><strong data-theme-count>0</strong></div>
+          <div><span>High intent</span><strong data-risk-count>0</strong></div>
+        </div>
+        <div class="loading-state" hidden data-loading-state>
+          <span></span><span></span><span></span>
+          <p>Grouping repeated signals…</p>
+        </div>
+        <div class="empty-state" data-empty-state>
+          <span aria-hidden="true">↳</span>
+          <h3>Run the sample to build a review queue.</h3>
+          <p>The result shows exactly which messages contributed to each theme and why it received its priority.</p>
+        </div>
+        <div class="theme-results" data-theme-results></div>
+      </div>
+    </section>
+
+    <section class="demo-method" aria-labelledby="method-title">
+      <p class="eyebrow">What this prototype demonstrates</p>
+      <h2 id="method-title">Explainability before automation.</h2>
+      <div>
+        <article><strong>Grouping</strong><p>Messages are matched to a small, visible taxonomy such as onboarding, exports, integrations, performance, and cancellation intent.</p></article>
+        <article><strong>Priority</strong><p>Priority combines message frequency with explicit risk language. It is a review aid, not a churn prediction.</p></article>
+        <article><strong>Human control</strong><p>Every result includes its supporting messages so a person can accept, reject, or investigate the suggested theme.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer demo-footer"><div><a class="brand footer-brand" href="/"><img src="/assets/mark.svg" alt="" width="30" height="30"><span>ChurnIntercept</span></a><p>Early-access customer feedback prioritisation.</p></div><nav aria-label="Footer navigation"><a href="/privacy">Privacy Notice</a><a href="/terms">Early Access Terms</a></nav><p>Demo data stays in your browser.</p></footer>
+</body>
+</html>

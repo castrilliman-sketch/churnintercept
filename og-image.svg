@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fff8ec"/>
+  <rect x="44" y="44" width="1112" height="542" fill="#fffdf8" stroke="#17141f" stroke-width="6"/>
+  <rect x="78" y="78" width="82" height="82" rx="20" fill="#ff5b35"/>
+  <circle cx="119" cy="119" r="24" fill="none" stroke="#17141f" stroke-width="9"/>
+  <circle cx="119" cy="119" r="7" fill="#17141f"/>
+  <path d="M137 101l16-16M137 85h16v16" fill="none" stroke="#fff8ec" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="182" y="132" fill="#17141f" font-family="Georgia, serif" font-size="38" font-weight="700">ChurnIntercept</text>
+  <text x="78" y="268" fill="#17141f" font-family="Georgia, serif" font-size="76" font-weight="700">Find the customer problems</text>
+  <text x="78" y="354" fill="#17141f" font-family="Georgia, serif" font-size="76" font-weight="700">that deserve your next sprint.</text>
+  <rect x="78" y="428" width="520" height="76" fill="#b7f5cd" stroke="#17141f" stroke-width="4"/>
+  <text x="104" y="478" fill="#17141f" font-family="Arial, sans-serif" font-size="28" font-weight="700">Customer feedback prioritisation</text>
+  <circle cx="1056" cy="468" r="58" fill="#6f5cff" stroke="#17141f" stroke-width="5"/>
+  <path d="M1027 468h58m-21-21l21 21-21 21" fill="none" stroke="#fffdf8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
