@@ -45,7 +45,7 @@ if (billingSwitch) {
     });
     document.querySelectorAll('[data-billing-copy]').forEach((copy, index) => {
       if (index === 1) {
-        copy.textContent = annual ? 'Billed annually, plus a $350 one-time setup fee.' : 'Plus a clearly stated $350 one-time setup fee.';
+        copy.textContent = annual ? 'Billed annually, plus a £250 one-time setup and onboarding fee.' : 'Plus a £250 one-time setup and onboarding fee.';
       } else {
         copy.textContent = annual ? 'Billed annually. Equivalent monthly price shown.' : 'Pay month to month.';
       }

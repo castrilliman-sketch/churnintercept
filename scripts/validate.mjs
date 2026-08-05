@@ -54,6 +54,14 @@ for (const file of htmlFiles) {
 }
 
 const index = await readFile(new URL('index.html', root), 'utf8');
+for (const pricing of [
+  'data-monthly="£70" data-annual="£58"',
+  'data-monthly="£50" data-annual="£42"',
+  '£250 one-time setup and onboarding fee',
+  'data-monthly="£95" data-annual="£79"'
+]) {
+  if (!index.includes(pricing)) fail(`index.html: missing pricing configuration ${pricing}`);
+}
 const formMatch = index.match(/<form[^>]+name="early-access-leads"[\s\S]*?<\/form>/);
 if (!formMatch) fail('index.html: Netlify early-access form missing');
 else {
