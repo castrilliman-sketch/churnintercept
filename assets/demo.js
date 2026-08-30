@@ -30,6 +30,11 @@ const loadingState = document.querySelector('[data-loading-state]');
 const emptyState = document.querySelector('[data-empty-state]');
 const errorMessage = document.querySelector('[data-demo-error]');
 let latestResults = [];
+let analysisTimer;
+let hasAnalysisState = false;
+
+const initialEmptyTitle = emptyState.querySelector('h3').textContent;
+const initialEmptyCopy = emptyState.querySelector('p').textContent;
 
 function escapeHtml(value) {
   return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
@@ -54,10 +59,29 @@ function priorityFor(theme, index) {
   return { label: 'Monitor', className: 'priority-low' };
 }
 
-function renderResults(messages, results) {
+function updateSummary(messages = [], results = []) {
   document.querySelector('[data-message-count]').textContent = String(messages.length);
   document.querySelector('[data-theme-count]').textContent = String(results.length);
   document.querySelector('[data-risk-count]').textContent = String(messages.filter((message) => riskTerms.some((term) => message.toLowerCase().includes(term))).length);
+}
+
+function resetResults() {
+  window.clearTimeout(analysisTimer);
+  analysisTimer = undefined;
+  hasAnalysisState = false;
+  latestResults = [];
+  resultsPanel.setAttribute('aria-busy', 'false');
+  resultsContainer.innerHTML = '';
+  loadingState.hidden = true;
+  emptyState.hidden = false;
+  emptyState.querySelector('h3').textContent = initialEmptyTitle;
+  emptyState.querySelector('p').textContent = initialEmptyCopy;
+  exportButton.disabled = true;
+  updateSummary();
+}
+
+function renderResults(messages, results) {
+  updateSummary(messages, results);
   resultsContainer.innerHTML = results.map((theme, index) => {
     const priority = priorityFor(theme, index);
     const evidence = theme.matches.map((message) => `<li>${escapeHtml(message)}</li>`).join('');
@@ -77,20 +101,26 @@ function runAnalysis() {
   const messages = getMessages();
   errorMessage.textContent = '';
   if (messages.length < 2) {
+    resetResults();
     errorMessage.textContent = 'Enter at least two customer messages on separate lines.';
     input.focus();
     return;
   }
+  window.clearTimeout(analysisTimer);
+  hasAnalysisState = true;
   resultsPanel.setAttribute('aria-busy', 'true');
   resultsContainer.innerHTML = '';
   emptyState.hidden = true;
   loadingState.hidden = false;
   exportButton.disabled = true;
-  window.setTimeout(() => {
+  analysisTimer = window.setTimeout(() => {
+    analysisTimer = undefined;
     const results = analyse(messages);
     loadingState.hidden = true;
     resultsPanel.setAttribute('aria-busy', 'false');
+    updateSummary(messages, results);
     if (!results.length) {
+      latestResults = [];
       emptyState.hidden = false;
       emptyState.querySelector('h3').textContent = 'No known themes were found.';
       emptyState.querySelector('p').textContent = 'Try adding more context or words related to onboarding, exports, performance, integrations, or cancellation intent.';
@@ -115,6 +145,20 @@ function exportCsv() {
 }
 
 runButton?.addEventListener('click', runAnalysis);
-clearButton?.addEventListener('click', () => { input.value = ''; input.focus(); });
-sampleButton?.addEventListener('click', () => { input.value = sampleFeedback; input.focus(); });
+input?.addEventListener('input', () => {
+  errorMessage.textContent = '';
+  if (hasAnalysisState) resetResults();
+});
+clearButton?.addEventListener('click', () => {
+  input.value = '';
+  errorMessage.textContent = '';
+  resetResults();
+  input.focus();
+});
+sampleButton?.addEventListener('click', () => {
+  input.value = sampleFeedback;
+  errorMessage.textContent = '';
+  resetResults();
+  input.focus();
+});
 exportButton?.addEventListener('click', exportCsv);

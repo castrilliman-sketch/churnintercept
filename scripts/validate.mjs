@@ -54,6 +54,14 @@ for (const file of htmlFiles) {
 }
 
 const index = await readFile(new URL('index.html', root), 'utf8');
+for (const pricing of [
+  'data-monthly="£70" data-annual="£58"',
+  'data-monthly="£50" data-annual="£42"',
+  '£250 one-time setup and onboarding fee',
+  'data-monthly="£95" data-annual="£79"'
+]) {
+  if (!index.includes(pricing)) fail(`index.html: missing pricing configuration ${pricing}`);
+}
 const formMatch = index.match(/<form[^>]+name="early-access-leads"[\s\S]*?<\/form>/);
 if (!formMatch) fail('index.html: Netlify early-access form missing');
 else {
@@ -67,6 +75,8 @@ const netlify = await readFile(new URL('netlify.toml', root), 'utf8');
 for (const header of ['Content-Security-Policy', 'X-Content-Type-Options', 'Referrer-Policy', 'Permissions-Policy', 'X-Frame-Options']) {
   if (!netlify.includes(header)) fail(`netlify.toml: missing ${header}`);
 }
+const indexRedirect = netlify.match(/\[\[redirects\]\][\s\S]*?from\s*=\s*"\/index\.html"[\s\S]*?(?=\n\[\[|$)/)?.[0];
+if (!indexRedirect?.includes('force = true')) fail('netlify.toml: /index.html redirect must be forced');
 
 const png = await readFile(new URL('og-image.png', root));
 if (png.toString('ascii', 1, 4) !== 'PNG') fail('og-image.png: invalid PNG signature');
